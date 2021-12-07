@@ -5,16 +5,15 @@ import VisitorsRowTable from "./Visitors/VisitorsRowTable";
 
 const Home = () => {
   const [getVisitors, setGetVisitors] = useState([]);
-  const URL_GET_VISITORS =
-    "http://localhost/react-project/app/src/Api/visitante.php";
+  const URL_GET_VISITORS = "http://localhost/casetas/src/Api/visitante.php";
 
   useEffect(() => {
     const OPTIONS = {
       method: "GET",
       mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": "token-value",
+      header: {
+        "Content-Type":
+          "application/x-www-form-urlencoded; charset=UTF-8;application/json",
       },
     };
 

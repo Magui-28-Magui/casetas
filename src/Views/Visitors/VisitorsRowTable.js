@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 const VisitorsRowTable = (props) => {
   const [, setSendRequest] = useState([]);
   let navigate = useNavigate();
 
   const submit = async (id) => {
-    const URL_SINGLE_VISITOR = `http://localhost/react-project/app/src/Api/single_visitor.php?v_id=${id}`;
+    const URL_SINGLE_VISITOR = `http://localhost/casetas/src/Api/single_visitor.php?v_id=${id}`;
     const OPTIONS = {
       method: "GET",
       mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": "token-value",
+      header: {
+        "Content-Type":
+          "application/x-www-form-urlencoded; charset=UTF-8;application/json",
       },
     };
 
@@ -21,7 +21,7 @@ const VisitorsRowTable = (props) => {
       .get(URL_SINGLE_VISITOR, OPTIONS)
       .then((response) => {
         setSendRequest(response.data);
-        navigate(`v_id=${id}`, {state: response.data})
+        navigate(`v_id=${id}`, { state: response.data });
       })
       .catch((error) => {
         console.log("Error", error);

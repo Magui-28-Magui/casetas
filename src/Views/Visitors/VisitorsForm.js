@@ -1,15 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import Title from "../../Components/Title";
-import { useLocation } from "react-router";
-import moment from 'moment';
+import { useLocation, useNavigate } from "react-router";
+import moment from "moment";
+import axios from "axios";
+import Alert from "../../Components/Alert";
 
 const VisitorsForm = () => {
   let visitor = useLocation();
+  let navigate = useNavigate();
   let visitorSelected = visitor.state.visitante[0];
-  // const ADD = true;
-  
+  const [, setSubmitResponse] = useState([]);
+  const [showMessageAlert, setShowMessageAlert] = useState(false);
+  const URL_SAVE_VISITOR = "http://localhost/casetas/src/Api/save_visit.php";
+
+  const PARAMS = {
+    planta_id: visitorSelected.id,
+    nombre: visitorSelected.nombre,
+    empresa: visitorSelected.empresa,
+    contacto: visitorSelected.contacto,
+    proposito: visitorSelected.proposito,
+    fecha: visitorSelected.fecha,
+  };
+
+  const OPTIONS = {
+    method: "POST",
+    headers: {
+      "Content-Type":
+        "application/x-www-form-urlencoded; charset=UTF-8;application/json",
+    },
+  };
+
+  const submit = (event) => {
+    event.preventDefault();
+    axios
+      .post(URL_SAVE_VISITOR, PARAMS, OPTIONS)
+      .then((response) => {
+        setSubmitResponse(response.data);
+        setShowMessageAlert(!showMessageAlert);
+
+        const timer = setTimeout(() => {
+          navigate("/");
+        }, 1200);
+        return () => clearTimeout(timer);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
+  };
+
   return (
     <div>
+      {showMessageAlert ? (
+        <Alert message="Visita realizada con éxito" type="success" />
+      ) : null}
       <Title title="Formulario" />
       <form className="container mt-5">
         <div className="row mb-4">
@@ -22,6 +65,7 @@ const VisitorsForm = () => {
               placeholder="Nombre"
               defaultValue={visitorSelected.nombre || ""}
               disabled={true}
+              name="nombre"
             />
           </div>
           <div className="col">
@@ -33,6 +77,7 @@ const VisitorsForm = () => {
               placeholder="Empresa"
               disabled
               defaultValue={visitorSelected.empresa || ""}
+              name="empresa"
             />
           </div>
         </div>
@@ -46,6 +91,7 @@ const VisitorsForm = () => {
               placeholder="Contacto"
               disabled
               defaultValue={visitorSelected.contacto || ""}
+              name="contacto"
             />
           </div>
           <div className="col">
@@ -57,6 +103,7 @@ const VisitorsForm = () => {
               placeholder="Propósito"
               disabled
               defaultValue={visitorSelected.proposito || ""}
+              name="proposito"
             />
           </div>
         </div>
@@ -69,7 +116,10 @@ const VisitorsForm = () => {
               className="form-control"
               placeholder="Fecha"
               disabled
-              defaultValue={moment(visitorSelected.fecha).format('MMMM Do YYYY') || ""}
+              defaultValue={
+                moment(visitorSelected.fecha).format("MMMM Do YYYY") || ""
+              }
+              name="fecha"
             />
           </div>
           <div className="col">
@@ -80,32 +130,12 @@ const VisitorsForm = () => {
               className="form-control"
               placeholder="Hora entrada"
               disabled
-              defaultValue={moment(visitorSelected.fecha).format('LT') || ""}
+              defaultValue={moment(visitorSelected.fecha).format("LT") || ""}
             />
           </div>
         </div>
-        {/* <div className="row mb-4">
-          <div className="col">
-            <label htmlFor="hora-salida">Hora salida</label>
-            <input
-              id="hora-salida"
-              type="text"
-              className="form-control"
-              placeholder="Hora salida"
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="tipo-visita">Tipo de visita</label>
-            <input
-              id="tipo-visita"
-              type="text"
-              className="form-control"
-              placeholder="Tipo visita"
-            />
-          </div>
-        </div> */}
         <div className="mt-5">
-          <button className="btn btn-primary" disabled={true} type="submit">
+          <button className="btn btn-success" disabled={showMessageAlert} onClick={submit}>
             Save Changes
           </button>
         </div>
