@@ -5,6 +5,9 @@ import axios from "axios";
 const VisitorsRowTable = (props) => {
   const [, setSendRequest] = useState([]);
   let navigate = useNavigate();
+  const {visitors} = props;
+
+  console.log(visitors)
 
   const submit = async (id) => {
     const URL_SINGLE_VISITOR = `http://localhost/casetas/src/Api/single_visitor.php?v_id=${id}`;
@@ -28,7 +31,7 @@ const VisitorsRowTable = (props) => {
       });
   };
 
-  const visitorsList = props.visitors.map((visitor) => {
+  const visitorsList = visitors.map((visitor) => {
     return (
       <tr key={visitor.id}>
         <td>{visitor.nombre}</td>

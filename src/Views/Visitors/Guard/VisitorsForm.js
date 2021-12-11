@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Title from "../../Components/Title";
+import Title from "./../../../Components/Title";
 import { useLocation, useNavigate } from "react-router";
 import moment from "moment";
 import axios from "axios";
-import Alert from "../../Components/Alert";
+import Alert from "./../../../Components/Alert";
 
 const VisitorsForm = () => {
   let visitor = useLocation();
@@ -135,8 +135,12 @@ const VisitorsForm = () => {
           </div>
         </div>
         <div className="mt-5">
-          <button className="btn btn-success" disabled={showMessageAlert} onClick={submit}>
-            Save Changes
+          <button
+            className="btn btn-success"
+            disabled={showMessageAlert}
+            onClick={submit}
+          >
+            Guardar cambios
           </button>
         </div>
       </form>

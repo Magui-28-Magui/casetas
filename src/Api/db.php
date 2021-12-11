@@ -9,6 +9,9 @@ const DB_PASS = '';
 const DB_NAME = 'martech_casetas';
 
 
+date_default_timezone_set("America/Tijuana");
+
+
 $connection = mysqli_connect( DB_HOST, DB_USER, DB_PASS, DB_NAME);
 if(!$connection){
     echo json_encode("Connection Failed :(");

@@ -36,11 +36,16 @@ if (isset($_POST['proposito'])) {
     $proposito = "N/A";
 }
 
+// if (isset($_POST['fecha'])) {
+//     $fecha = $_POST['fecha'];
+// } else {
+//     $fecha = date("Y-m-d H:i:s");
+// }
 $fecha = $_POST['fecha'];
 $visita_entrada = date("Y-m-d H:i:s");
 
-$query = "INSERT INTO registro_visitas (visita_tipo, planta_id, visita_nombre, visita_empresa, visita_contacto, visita_proposito, visita_fecha, visita_entrada)
-VALUES ('$tipo','$planta_id','$nombre', '$empresa', '$contacto', '$proposito', '$fecha', '$visita_entrada')";
+$query = "INSERT INTO agregar_visita_admin (planta_id, visita_nombre, visita_empresa, visita_contacto, visita_proposito, visita_fecha, visita_entrada)
+VALUES ('$planta_id','$nombre', '$empresa', '$contacto', '$proposito', '$fecha', '$visita_entrada')";
 
 $result = mysqli_query($connection, $query);
 
